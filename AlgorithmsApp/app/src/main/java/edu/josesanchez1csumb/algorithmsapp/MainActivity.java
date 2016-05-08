@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 "a stack. On each iteration, all unvisited vertices that are adjacent (connected to current node) are" +
                 " marked as visited and added to the queue. Once these new nodes are added, the front vertex is " +
                 "removed the vertex.");
-        BreathFirstSearch.setRuntime("Adjacency Matrix: O( |V|2) where V is number of vertices?Adjacency List: O( |V| + |E| ) where E is number of edges");
+        BreathFirstSearch.setRuntime("Adjacency Matrix: O( |V|^2) where V is number of vertices?Adjacency List: O( |V| + |E| ) where E is number of edges");
 
         // code for Merge Sort Algorithm
         Algorithm MergeSort = new Algorithm();

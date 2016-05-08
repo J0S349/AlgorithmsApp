@@ -37,6 +37,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
     // Log TAG for debugging purpose
     private static final String TAG = "SQLiteAppLog";
 
+
     // Constructor
     private SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -48,6 +49,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         }
         return dInstance;
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -77,17 +79,27 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. create ContentValues to add key "column"/value
-        ContentValues values = new ContentValues();
-        values.put(KEY_ID, algorithm.getID());
-        values.put(KEY_NAME, algorithm.getName()); // get name
-        values.put(KEY_DESCRIPTION, algorithm.getDescription()); // get description
-        values.put(KEY_RUNTIME, algorithm.getRuntime());   // get runtime
+        // 3. Check whether object with same Id already exist in table
+        String sql = "SELECT id from " + TABLE_ALGORITHMS + " WHERE id= " + algorithm.getID();
 
-        // 3. insert
-        db.insert(TABLE_ALGORITHMS, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
+        // execute query
+        Cursor cursor = db.rawQuery(sql, null);
+
+        // if cursor null, then that algorithm isn't found in the database yet, so we can add it
+        if(cursor == null){
+
+            // 2. create ContentValues to add key "column"/value
+            ContentValues values = new ContentValues();
+            values.put(KEY_ID, algorithm.getID());
+            values.put(KEY_NAME, algorithm.getName()); // get name
+            values.put(KEY_DESCRIPTION, algorithm.getDescription()); // get description
+            values.put(KEY_RUNTIME, algorithm.getRuntime());   // get runtime
+
+            // 3. insert
+            db.insert(TABLE_ALGORITHMS, // table
+                    null, //nullColumnHack
+                    values); // key/value -> keys = column names/ values = column values
+        }
 
         // 4. close - release the reference of writable DB
         db.close();
@@ -117,7 +129,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
             }while(cursor.moveToNext()); //determines whether there is still information available.
         }
 
-        Log.d(TAG, "All Books: " + algorithms_array.toString());
+        //Log.d(TAG, "All Books: " + algorithms_array.toString());
         db.close();
         return algorithms_array;
     }
