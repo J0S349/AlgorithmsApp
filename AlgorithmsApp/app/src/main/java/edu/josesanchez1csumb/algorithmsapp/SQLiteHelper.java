@@ -74,7 +74,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
     }
 
     public void addAlgorithm(Algorithm algorithm){
-        Log.d(TAG, " Add Algorithm" + algorithm.toString());
+
 
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -86,7 +86,8 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery(sql, null);
 
         // if cursor null, then that algorithm isn't found in the database yet, so we can add it
-        if(cursor == null){
+        if(!cursor.moveToFirst()){
+            Log.d(TAG, " Add Algorithm" + algorithm.toString());
 
             // 2. create ContentValues to add key "column"/value
             ContentValues values = new ContentValues();

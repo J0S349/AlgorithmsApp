@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             algorithm_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "button clicked: " + v.getId(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(v.getContext(), "button clicked: " + v.getId(), Toast.LENGTH_SHORT).show();
                     Intent chosenAlgorithm = new Intent(v.getContext(), AlgorithmChosen.class);
                     Bundle info = new Bundle();
 
